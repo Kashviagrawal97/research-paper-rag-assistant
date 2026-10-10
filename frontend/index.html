@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research Paper Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="masthead">
+    <h1>Research Paper Assistant</h1>
+    <p>Build a small library of papers, then ask it questions. Every answer shows the passages it came from.</p>
+  </header>
+
+  <main class="layout">
+    <!-- LEFT: build the library -->
+    <section class="library" aria-labelledby="library-title">
+      <h2 id="library-title">Your library</h2>
+
+      <div class="tabs" role="tablist" aria-label="How to add papers">
+        <button class="tab" role="tab" id="tab-topic" aria-controls="panel-topic" aria-selected="true">
+          <span class="tab-label">Search by topic</span>
+        </button>
+        <button class="tab" role="tab" id="tab-upload" aria-controls="panel-upload" aria-selected="false" tabindex="-1">
+          <span class="tab-label">Upload PDFs</span>
+        </button>
+      </div>
+
+      <form id="panel-topic" class="panel" role="tabpanel" aria-labelledby="tab-topic">
+        <label for="topic-input">Research topic</label>
+        <input id="topic-input" type="text" autocomplete="off" placeholder="e.g. decidability of Turing machines">
+        <p class="hint">Searches arXiv and Semantic Scholar and keeps the papers that have a free PDF. Short, specific topics work best.</p>
+        <button class="btn" type="submit" id="topic-submit">Find papers and build library</button>
+      </form>
+
+      <form id="panel-upload" class="panel" role="tabpanel" aria-labelledby="tab-upload" hidden>
+        <label class="dropzone" id="dropzone" for="file-input">
+          <input id="file-input" class="sr-only" type="file" accept="application/pdf,.pdf" multiple>
+          <span class="dropzone-title">Drop PDFs here or choose files</span>
+          <span class="hint">Up to 8 papers. Text-based PDFs work best.</span>
+        </label>
+        <ul id="file-list" class="file-list" aria-label="Selected files"></ul>
+        <p id="upload-error" class="inline-error" role="alert" hidden></p>
+        <button class="btn" type="submit" id="upload-submit" disabled>Build library from these PDFs</button>
+      </form>
+
+      <p class="replace-note">Building a new library replaces the current one.</p>
+
+      <div id="progress" class="progress" hidden>
+        <ol id="stages" class="stages">
+          <li data-stage="fetching">Find papers</li>
+          <li data-stage="reading">Read PDFs</li>
+          <li data-stage="embedding">Index passages</li>
+        </ol>
+        <div id="bar" class="bar" hidden><div id="bar-fill" class="bar-fill"></div></div>
+        <p id="progress-message" class="progress-message" aria-live="polite"></p>
+        <p id="progress-note" class="hint" hidden>Indexing takes a few minutes on Gemini's free tier. You can leave this tab open.</p>
+      </div>
+
+      <div id="papers" class="papers" hidden>
+        <h3>Papers in this library</h3>
+        <ul id="paper-list"></ul>
+      </div>
+    </section>
+
+    <!-- RIGHT: ask questions -->
+    <section class="ask" aria-labelledby="ask-title">
+      <h2 id="ask-title">Ask your papers</h2>
+
+      <div id="empty" class="empty">
+        <p id="empty-text">Search a topic or upload PDFs on the left. Once the library is built, you can ask questions here.</p>
+        <div id="starters" class="starters" hidden></div>
+      </div>
+
+      <div id="thread" class="thread" aria-live="polite"></div>
+
+      <form id="ask-form" class="ask-form">
+        <label for="question" class="sr-only">Your question</label>
+        <textarea id="question" rows="2" placeholder="Build a library to start asking" disabled></textarea>
+        <button class="btn" type="submit" id="ask-submit" disabled>Ask</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

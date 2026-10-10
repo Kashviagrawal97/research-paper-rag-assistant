@@ -1,0 +1,21 @@
+# RAG pipeline
+langchain-core
+langchain-community
+langchain-text-splitters
+langchain-chroma
+langchain-google-genai
+chromadb
+pypdf
+fonttools
+
+# Fetching papers
+arxiv
+requests
+
+# Web app
+fastapi
+uvicorn
+python-multipart
+
+# Settings
+python-dotenv
