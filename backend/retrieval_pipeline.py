@@ -31,7 +31,7 @@ def ask(question):
     context = "\n\n".join(doc.page_content for doc in docs)
 
     # Step 2: Generate the answer (if you get a model error, try "gemini-flash-latest")
-    llm = ChatGoogleGenerativeAI(model="gemini-3.5-flash", temperature=0.2)
+    llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash", temperature=0.2)
     response = (prompt | llm).invoke({"context": context, "question": question})
 
     # Step 3: Collect the sources
